@@ -155,8 +155,26 @@ var TemplateList = map[string]string{"403": `<div class="missing-content">
         </div>
     {{end}}
     <div class="box-body" {{.Style}}>
+        <!--added by jaison-->
+        {{if ne .Message ""}}
+            <p id="messeage">{{.Message}}</p>
+        {{end}}
+
         {{langHtml .Body}}
+
+        <!--added by jaison-->
+        {{if ne .ParentId ""}}
+            <input type="hidden" id="parentid" value="{{.ParentId}}" />
+        {{end}}
     </div>
+
+    <!--added by jaison-->
+    {{if ne .OverlayId ""}}
+        <div class="overlay" id="{{.OverlayId}}" style="display: none;">
+            <i class="fa fa-refresh fa-spin"></i>
+        </div>
+    {{end}}
+
     {{if ne .Footer ""}}
     <div class="box-footer clearfix">
         {{langHtml .Footer}}
@@ -906,6 +924,9 @@ var TemplateList = map[string]string{"403": `<div class="missing-content">
                     processData: false,
                     contentType: false,
                     success: function (data) {
+                        // added by jaison
+                        console.log(data);
+
                         {{.AjaxSuccessJS}}
                     },
                     error : function(data) {
@@ -1496,9 +1517,9 @@ var TemplateList = map[string]string{"403": `<div class="missing-content">
                 </ul>
             </div>
         {{end}}
-        <a class="btn btn-sm btn-primary grid-refresh">
+        <!--<a class="btn btn-sm btn-primary grid-refresh">
             <i class="fa fa-refresh"></i> {{lang "Refresh"}}
-        </a>
+        </a>-->
     </span>
     <script>
         let toastMsg = '{{lang "Refresh succeeded"}} !';
@@ -1539,8 +1560,17 @@ var TemplateList = map[string]string{"403": `<div class="missing-content">
 
         {{end}}
     </script>
-{{end}}`, "components/table": `{{define "table"}}
+{{end}}`,
+
+	// modified by jaison
+	"components/table": `{{define "table"}}
+
+{{if eq .TableID ""}}
     <table class="table table-{{.Style}}" style="min-width: {{.MinWidth}};table-layout: {{.Layout}};">
+{{else}}
+    <table class="table table-{{.Style}}" id={{.TableID}} style="display: table;">
+{{end}}
+
         {{if eq .Type "table"}}
             {{if not .HideThead}}
                 <thead>
@@ -2095,7 +2125,9 @@ var TemplateList = map[string]string{"403": `<div class="missing-content">
             }
         </style>
     {{end}}
-{{end}}`, "components/tabs": `{{define "tabs"}}
+{{end}}`,
+
+	"components/tabs": `{{define "tabs"}}
 <div class="nav-tabs-custom">
     <ul class="nav nav-tabs">
         {{range $key, $data := .Data}}
@@ -2354,10 +2386,10 @@ var TemplateList = map[string]string{"403": `<div class="missing-content">
                 {{langHtml .Panel.Title}}
                 <small>{{langHtml .Panel.Description}}</small>
             </h1>
-            <ol class="breadcrumb" style="margin-right: 30px;">
+            <!--<ol class="breadcrumb" style="margin-right: 30px;">
                 <li><a href="{{.IndexUrl}}"><i class="fa fa-dashboard"></i> {{lang "home"}}</a></li>
                 {{.Menu.FormatPath}}
-            </ol>
+            </ol>-->
         </section>
     {{end}}
 
@@ -2588,7 +2620,7 @@ var TemplateList = map[string]string{"403": `<div class="missing-content">
         </div>
     </aside>
 {{end}}`, "footer": `{{define "footer"}}
-    <footer class="main-footer">
+    <!--<footer class="main-footer">
         <div class="pull-right hidden-xs">
             <b>Version</b> {{.System.Version}}
         </div>
@@ -2597,7 +2629,7 @@ var TemplateList = map[string]string{"403": `<div class="missing-content">
         </div>
         <strong>Powered by <a href="https://github.com/HongJaison/go-admin3">GoAdmin</a>.</strong>
         {{.FooterInfo}}
-    </footer>
+    </footer>-->
 {{end}}`, "head": `{{define "head"}}
     <head>
         <meta charset="utf-8">
@@ -2654,7 +2686,8 @@ var TemplateList = map[string]string{"403": `<div class="missing-content">
                     </ul>
                 </div>
 
-                {{ template "admin_panel" . }}
+                <!--commented by jaison-->
+                <!--{{ template "admin_panel" . }}-->
             </div>
         </nav>
     </header>

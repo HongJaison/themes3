@@ -1,10 +1,11 @@
 package common
 
 import (
-	"github.com/HongJaison/go-admin3/modules/config"
-	adminTemplate "github.com/HongJaison/go-admin3/template"
 	"html/template"
 	"strings"
+
+	"github.com/HongJaison/go-admin3/modules/config"
+	adminTemplate "github.com/HongJaison/go-admin3/template"
 )
 
 type BaseTheme struct {
